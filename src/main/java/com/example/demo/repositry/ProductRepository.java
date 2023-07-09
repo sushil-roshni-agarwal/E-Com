@@ -1,4 +1,4 @@
-package com.example.demo.model.repositry;
+package com.example.demo.repositry;
 
 import java.util.List;
 

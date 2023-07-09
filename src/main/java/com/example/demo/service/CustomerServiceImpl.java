@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.exceptions.InvalidUserNameException;
 import com.example.demo.model.Customer;
-import com.example.demo.model.repositry.CustomerRepo;
+import com.example.demo.repositry.CustomerRepo;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

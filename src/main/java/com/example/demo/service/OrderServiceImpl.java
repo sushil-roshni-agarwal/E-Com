@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Orderr;
 import com.example.demo.model.Product;
-import com.example.demo.model.repositry.CustomerRepo;
-import com.example.demo.model.repositry.OrderRepository;
-import com.example.demo.model.repositry.ProductRepository;
+import com.example.demo.repositry.CustomerRepo;
+import com.example.demo.repositry.OrderRepository;
+import com.example.demo.repositry.ProductRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService {
