@@ -8,4 +8,6 @@ import com.example.demo.model.Customer;
 @Repository
 public interface CustomerRepo extends JpaRepository<Customer,Integer>{
 	public Customer findBycustUserName(String custUserName);
+	public Customer findBycustId(int customerId);
+	
 }

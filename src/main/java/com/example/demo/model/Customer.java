@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Customer {
 	
@@ -29,6 +31,7 @@ public class Customer {
 	  private Long custPhoneNumber;
 
 	  @NotNull
+	  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	  private Date custRegisterDate;
 
 	  

@@ -1,12 +1,19 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Orderr {
@@ -18,21 +25,17 @@ public class Orderr {
 	@ManyToOne
 	@JoinColumn(name = "customer")
 	private Customer customer;
-	@OneToOne
-	@JoinColumn(name = "product")
-	Product product;
+	@ManyToMany
+	@JoinTable(
+		    name = "order_product", 
+		    joinColumns = @JoinColumn(name = "orderId"), 
+		    inverseJoinColumns = @JoinColumn(name = "productId")
+		)
+	private List<Product> products = new ArrayList<>();
+    private double totalAmount;
+
+    
 	
-	public Orderr() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Orderr(int orderId, Customer customer, Product product, double totalA) {
-		super();
-		this.orderId = orderId;
-		this.customer = customer;
-		this.product = product;
-		this.totalA = totalA;
-	}
 	public int getOrderId() {
 		return orderId;
 	}
@@ -45,18 +48,18 @@ public class Orderr {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	public Product getProduct() {
-		return product;
+	
+	public List<Product> getProducts() {
+		return products;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
-	public double getTotalA() {
-		return totalA;
+	public double getTotalAmount() {
+		return totalAmount;
 	}
-	public void setTotalA(double totalA) {
-		this.totalA = totalA;
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
 	}
-	double totalA;
 	
 }

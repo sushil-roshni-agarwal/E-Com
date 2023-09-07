@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,32 @@ public class OrderServiceImpl implements OrderService {
 	OrderRepository orderRepository;
 
 	@Override
-	public Orderr createOrder(Orderr order,int cid,int pid) {
-		Customer customer=customerRepository.findById(cid).orElse(null);	
-		order.setCustomer(customer);
-		System.out.println("fgh   "+pid);
-		Product product= productRepository.findById(pid).orElse(null);
-		order.setProduct(product);
-		return orderRepository.save(order);
-	}
-	public List<Orderr> showOrdersList(int id){
-		Customer customer=customerRepository.findById(id).orElse(null);
-		return orderRepository.getOrdList(customer);
-	}
+	public Orderr createOrder(int customerId, List<Integer> productIds) {
+        Customer customer = customerRepository.findBycustId(customerId);
+        System.out.println(customer.getCustId());
+        
+        List<Product> products=new ArrayList<Product>();
+        for(Integer p : productIds) {
+        	if(!productRepository.findById(p).isEmpty()) {
+        		products.add(productRepository.findById(p).get());
+        	}
+        }
+        
+        for(Product p:products) {
+        	System.out.println(p.getProductPrice());
+        }
+        
+        double totalAmount=21;
+        if(!products.isEmpty()) {
+             totalAmount = products.stream().mapToDouble(Product::getProductPrice).sum();
+        }
+
+        Orderr order = new Orderr();
+        order.setCustomer(customer);
+        order.setProducts(products);
+        order.setTotalAmount(totalAmount);
+
+        return orderRepository.save(order);
+    }
+
 }

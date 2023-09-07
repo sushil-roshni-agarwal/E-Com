@@ -6,6 +6,5 @@ import com.example.demo.model.Orderr;
 
 public interface OrderService {
 
-	public Orderr createOrder(Orderr order,int cid,int pid);
-	public List<Orderr> showOrdersList(int id);
+	public Orderr createOrder(int customerId, List<Integer> productIds);
 }

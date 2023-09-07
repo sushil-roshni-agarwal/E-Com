@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Address {
 
@@ -16,6 +18,7 @@ public class Address {
 	private int id;
 	
 	@OneToOne(cascade = {CascadeType.ALL},mappedBy = "address")
+	@JsonIgnore
 	private Customer cust;
 	
 	private String streetName;

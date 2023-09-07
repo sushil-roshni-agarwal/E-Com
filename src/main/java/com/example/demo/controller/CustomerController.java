@@ -25,27 +25,23 @@ public class CustomerController {
 	  CustomerService Cs;
 
 	  @PostMapping("/registerCustomer")
-	  public Customer regsiterCustomer(@Valid @RequestBody Customer cust) throws InvalidPhoneNumberException, InvalidUserNameException {
+	  public Customer registerCustomer(@Valid @RequestBody Customer cust) throws InvalidPhoneNumberException, InvalidUserNameException {
 	    if (cust.getCustPhoneNumber().toString().length() != 10)
 	    {
 	      throw new InvalidPhoneNumberException("Phone number length should be 10!");
 	    }
-	 
 	    
-	    //checking for special characters in customer's username
 	    Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
 	    Matcher matcher = pattern.matcher(cust.getCustUserName());
 	    if(matcher.find())
 	    {
 	    	throw new InvalidUserNameException("User name cant have special characters");
 	    }
-	    
-	    
 	    return Cs.regsiterCustomer(cust);
 	  }
 
 
-	  @GetMapping("/loginCustomer")
+	  @PostMapping("/loginCustomer")
 	  public String loginCustomer(@RequestBody Customer cust) {
 	    if (Cs.loginCustomer(cust)){ return "Logged in successfully"; 
 	    }
