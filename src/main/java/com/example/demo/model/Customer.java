@@ -30,7 +30,7 @@ public class Customer {
 	  //@Size(min = 10, max = 10, message = "Phone number should be 10 digits")
 	  private Long custPhoneNumber;
 
-	  @NotNull
+	  //@NotNull
 	  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	  private Date custRegisterDate;
 

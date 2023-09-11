@@ -1,15 +1,18 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.OrderItem;
 import com.example.demo.model.Orderr;
 import com.example.demo.model.Product;
 import com.example.demo.repositry.CustomerRepo;
+import com.example.demo.repositry.OrderItemRepositry;
 import com.example.demo.repositry.OrderRepository;
 import com.example.demo.repositry.ProductRepository;
 
@@ -27,34 +30,39 @@ public class OrderServiceImpl implements OrderService {
 	ProductRepository productRepository;
 	@Autowired
 	OrderRepository orderRepository;
-
+	
+	@Autowired
+	OrderItemRepositry orderItemRepositry;
+	
 	@Override
-	public Orderr createOrder(int customerId, List<Integer> productIds) {
-        Customer customer = customerRepository.findBycustId(customerId);
-        System.out.println(customer.getCustId());
-        
-        List<Product> products=new ArrayList<Product>();
-        for(Integer p : productIds) {
-        	if(!productRepository.findById(p).isEmpty()) {
-        		products.add(productRepository.findById(p).get());
-        	}
-        }
-        
-        for(Product p:products) {
-        	System.out.println(p.getProductPrice());
-        }
-        
-        double totalAmount=21;
-        if(!products.isEmpty()) {
-             totalAmount = products.stream().mapToDouble(Product::getProductPrice).sum();
-        }
+	@Transactional
+	public String createOrder(Orderr ord) {
 
-        Orderr order = new Orderr();
-        order.setCustomer(customer);
-        order.setProducts(products);
-        order.setTotalAmount(totalAmount);
+		String userName=ord.getCustomer().getCustUserName();
+		if(userName!=null) {
+			Orderr order=new Orderr();
+			Customer c=customerRepository.findBycustUserName(ord.getCustomer().getCustUserName());
+			order.setCustomer(c);
+			
+			List<OrderItem>orderItems=ord.getOrderItems();
+			
+			OrderItem ordItem=new OrderItem();
+			ordItem.setOrder(order);
+			
+			for(OrderItem o:orderItems) {
+				Product p=productRepository.getOne(o.getProduct().getProductId());
+				ordItem.setProduct(p);
+				ordItem.setQuantity(o.getQuantity());
+			}
+			
+			orderItemRepositry.save(ordItem);
+			orderRepository.save(order);
 
-        return orderRepository.save(order);
+			return "Saved Succesfully";
+		}
+		return "Problem in saving order";
+
+		
     }
 
 }

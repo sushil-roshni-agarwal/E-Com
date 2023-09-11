@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +20,10 @@ private int productId;
 private String productName;
 private float productPrice;
 private String productType;
+
+@OneToOne(mappedBy="product")
+private OrderItem orderItem;
+
 public int getProductId() {
 	return productId;
 }
